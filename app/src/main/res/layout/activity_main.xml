@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="232dp"
-        android:onClick="showNewActivity"
+        android:onClick="sayCheese"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

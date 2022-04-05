@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouxBe">
         <activity
-            android:name=".SayHiActivity"
+            android:name=".CountActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
