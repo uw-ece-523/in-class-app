@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RouxBe">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".CountActivity"
             android:exported="false" />
         <activity
