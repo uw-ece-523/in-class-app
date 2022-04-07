@@ -36,6 +36,7 @@
         style="@style/FancyLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="#CDDC39"
         android:text="Name:"
         app:layout_constraintHorizontal_weight="1"
@@ -47,6 +48,7 @@
         style="@style/FancyLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="#8BC34A"
         android:text="Title:"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_label"
@@ -58,44 +60,46 @@
         style="@style/FancyLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:background="#4CAF50"
-        android:text="Email: "
+        android:text="Email:"
         app:layout_constraintEnd_toEndOf="@+id/textView_name_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="#FFC107"
+        android:paddingStart="10dp"
         android:text="Adrienne"
         app:layout_constraintBaseline_toBaselineOf="@id/textView_name_label"
-        app:layout_constraintBottom_toBottomOf="@id/textView_name_label"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_weight="2"
         app:layout_constraintStart_toEndOf="@+id/textView_name_label"
-        app:layout_constraintTop_toTopOf="@id/textView_name_label" />
+        app:layout_constraintTop_toTopOf="@+id/textView_name_label" />
 
     <TextView
         android:id="@+id/textView14"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="#FFEB3B"
+        android:paddingStart="10dp"
         android:text="Person"
         app:layout_constraintBaseline_toBaselineOf="@id/textView11"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintEnd_toEndOf="@+id/textView13"
+        app:layout_constraintStart_toEndOf="@+id/textView_name_label"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView15"
-        android:layout_width="wrap_content"
+        android:layout_width="282dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:background="#FF9800"
+        android:paddingStart="10dp"
         android:text="aha@uw.edu"
         app:layout_constraintBaseline_toBaselineOf="@id/textView12"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+        app:layout_constraintEnd_toEndOf="@+id/textView14"
+        app:layout_constraintStart_toStartOf="@+id/textView14" />
 </androidx.constraintlayout.widget.ConstraintLayout>
