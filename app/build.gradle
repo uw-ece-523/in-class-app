@@ -61,4 +61,8 @@ dependencies {
 
     // Annotation processor
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    implementation "androidx.fragment:fragment-ktx:1.4.1"
+
+
 }

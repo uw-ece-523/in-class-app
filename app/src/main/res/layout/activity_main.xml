@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <variable name="todo" type="edu.uw.ee523.rouxbe.ToDo"/>
+        <variable name="todoModel" type="edu.uw.ee523.rouxbe.ToDoViewModel"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="#2196F3"
-            android:text="@{todo.title}"
+            android:text="@{todoModel.toDo.title}"
             android:textColor="#FAF2F2"
             android:textSize="48sp"
             app:layout_constraintBottom_toBottomOf="parent"
