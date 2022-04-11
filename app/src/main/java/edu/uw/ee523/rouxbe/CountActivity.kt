@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
@@ -45,9 +46,9 @@ class CountActivity : AppCompatActivity() {
         }
 
         // Register the permissions callback, which handles the user's response to the
-// system permissions dialog. Save the return value, an instance of
-// ActivityResultLauncher. You can use either a val, as shown in this snippet,
-// or a lateinit var in your onAttach() or onCreate() method.
+        // system permissions dialog. Save the return value, an instance of
+        // ActivityResultLauncher. You can use either a val, as shown in this snippet,
+        // or a lateinit var in your onAttach() or onCreate() method.
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()
@@ -64,6 +65,11 @@ class CountActivity : AppCompatActivity() {
                 }
             }
 
+        requestCameraPermissions(requestPermissionLauncher)
+        requestStoragePermissions(requestPermissionLauncher)
+    }
+
+    private fun requestCameraPermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
         when {
             ContextCompat.checkSelfPermission(
                 this,
@@ -72,22 +78,53 @@ class CountActivity : AppCompatActivity() {
                 // You can use the API that requires the permission.
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-            // In an educational UI, explain to the user why your app requires this
-            // permission for a specific feature to behave as expected. In this UI,
-            // include a "cancel" or "no thanks" button that allows the user to
-            // continue using your app without granting the permission.
-            Log.i(MY_TAG, "do it for me, please")
+                // In an educational UI, explain to the user why your app requires this
+                // permission for a specific feature to behave as expected. In this UI,
+                // include a "cancel" or "no thanks" button that allows the user to
+                // continue using your app without granting the permission.
+                Log.i(MY_TAG, "do it for me, please")
                 Toast.makeText(
                     this,
                     "In order to demonstrate the success scenario we need you to allow access to the permission",
-                            Toast.LENGTH_LONG
+                    Toast.LENGTH_LONG
                 ).show()
-        }
+            }
             else -> {
                 // You can directly ask for the permission.
                 // The registered ActivityResultCallback gets the result of this request.
                 requestPermissionLauncher.launch(
-                    Manifest.permission.CAMERA)
+                    Manifest.permission.CAMERA
+                )
+            }
+        }
+    }
+
+    private fun requestStoragePermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                // You can use the API that requires the permission.
+            }
+            shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
+                // In an educational UI, explain to the user why your app requires this
+                // permission for a specific feature to behave as expected. In this UI,
+                // include a "cancel" or "no thanks" button that allows the user to
+                // continue using your app without granting the permission.
+                Log.i(MY_TAG, "do it for me, please")
+                Toast.makeText(
+                    this,
+                    "In order to demonstrate the success scenario we need you to allow access to the permission",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            else -> {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+                requestPermissionLauncher.launch(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
             }
         }
     }
