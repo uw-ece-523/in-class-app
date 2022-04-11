@@ -8,6 +8,8 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import edu.uw.ee523.rouxbe.databinding.ActivityMainBinding
 
 const val TAG = "MainActivity"
 
@@ -15,7 +17,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+//        setContentView(R.layout.activity_main)
+        val binding: ActivityMainBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        binding.todo = ToDo("do it!", "or something", false)
+
         val button = findViewById<Button>(R.id.button_show_message)
         button.setOnClickListener {
             Log.i("MainActivity", "In the Lambda!")
@@ -28,12 +36,7 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
-//        button.setOnClickListener(View.OnClickListener {
-//                view ->
-//            Log.i("MainActivity", "with the view")
-//            val button:Button = view as Button
-//            button.text = "Sparky"
-//        })
+
         }
 
     override fun onResume() {
