@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         // from the activity-ktx artifact
         val model: ToDoViewModel by viewModels()
 
-        model.getToDo().observe(this, Observer<ToDo>{
-            todo->binding.textMessage.setBackgroundColor(Color.GREEN)
-        })
+//        model.getToDo().observe(this, Observer<ToDo>{
+//            todo->binding.textMessage.setBackgroundColor(Color.GREEN)
+//        })
 
 
         val button = findViewById<Button>(R.id.button_show_message)
@@ -81,6 +81,5 @@ class MainActivity : AppCompatActivity() {
         val button:Button = view as Button
         button.setText("Cheeese")
         button.text = "foo"
-        binding.todoModel?.getToDo()?.value?.title ?: "something new"
     }
 }
