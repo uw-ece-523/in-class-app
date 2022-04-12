@@ -8,25 +8,41 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import edu.uw.ee523.rouxbe.databinding.ActivityMainBinding
 
 const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
+
+        val binding:ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        binding.myToDo = ToDo(title="Write Code");
+
+
+
+
         val button = findViewById<Button>(R.id.button_show_message)
         button.setOnClickListener {
             Log.i("MainActivity", "In the Lambda!")
-            button.setText("lambda")
 
-            val intent = Intent(this, CountActivity::class.java)
-            intent.apply{
-                putExtra("MESSAGE_TO_SHOW", "Adafruit")
-            }
+//            binding.myToDo.title = "Click the button"
 
-            startActivity(intent)
+
+//            button.setText("lambda")
+//
+//            val intent = Intent(this, CountActivity::class.java)
+//            intent.apply{
+//                putExtra("MESSAGE_TO_SHOW", "Adafruit")
+//            }
+//
+//            startActivity(intent)
         }
 //        button.setOnClickListener(View.OnClickListener {
 //                view ->
@@ -65,6 +81,8 @@ class MainActivity : AppCompatActivity() {
         val button:Button = view as Button
         button.setText("Cheeese")
         button.text = "foo"
+
+
 
     }
 }
