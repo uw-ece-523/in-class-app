@@ -15,34 +15,24 @@ const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
 
-
+    lateinit var binding:ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
 
         val binding:ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
         binding.myToDo = ToDo(title="Write Code");
-
-
-
 
         val button = findViewById<Button>(R.id.button_show_message)
         button.setOnClickListener {
             Log.i("MainActivity", "In the Lambda!")
+            val intent = Intent(this, CountActivity::class.java)
+            intent.apply{
+                putExtra("MESSAGE_TO_SHOW", "Adafruit")
+            }
 
-//            binding.myToDo.title = "Click the button"
-
-
-//            button.setText("lambda")
-//
-//            val intent = Intent(this, CountActivity::class.java)
-//            intent.apply{
-//                putExtra("MESSAGE_TO_SHOW", "Adafruit")
-//            }
-//
-//            startActivity(intent)
+            startActivity(intent)
         }
 //        button.setOnClickListener(View.OnClickListener {
 //                view ->
@@ -82,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         button.setText("Cheeese")
         button.text = "foo"
 
-
+        binding?.myToDo?.title = "Click the button"
 
     }
 }
