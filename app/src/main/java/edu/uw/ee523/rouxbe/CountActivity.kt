@@ -24,7 +24,7 @@ const val MY_TAG = "CountActivity"
 
 class CountActivity : AppCompatActivity() {
     var cur_count = 0
-    lateinit var imageUri:Uri
+    lateinit var imageUri: Uri
     val REQUEST_IMAGE_CAPTURE = 42
     val REQUEST_CHOOSE_IMAGE = 47
 
@@ -56,17 +56,45 @@ class CountActivity : AppCompatActivity() {
                 if (isGranted) {
                     // Permission is granted. Continue the action or workflow in your
                     // app.
+                    Log.i(MY_TAG, "permission is granted ")
+
                 } else {
                     // Explain to the user that the feature is unavailable because the
                     // features requires a permission that the user has denied. At the
                     // same time, respect the user's decision. Don't link to system
                     // settings in an effort to convince the user to change their
                     // decision.
+                    Log.i(MY_TAG, "permission is NOT granted ")
                 }
             }
 
-        requestCameraPermissions(requestPermissionLauncher)
-        requestStoragePermissions(requestPermissionLauncher)
+        val canUseCamera = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.CAMERA
+        )
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+            Log.i(MY_TAG, "I should tell you why I want to use the camera")
+        }
+        if (canUseCamera == PackageManager.PERMISSION_DENIED) {
+            Log.i(MY_TAG,"Don't have permission so going to ask for it")
+            requestPermissionLauncher.launch(
+                Manifest.permission.CAMERA
+            )
+        }
+//
+        val canUseStorage = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+//
+//        if (canUseStorage == PackageManager.PERMISSION_DENIED) {
+//            shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//            Log.i(MY_TAG,"Don't have permission so going to ask for it")
+//            requestPermissionLauncher.launch(
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            )
+//        }
+
     }
 
     private fun requestCameraPermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
@@ -78,11 +106,6 @@ class CountActivity : AppCompatActivity() {
                 // You can use the API that requires the permission.
             }
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                // In an educational UI, explain to the user why your app requires this
-                // permission for a specific feature to behave as expected. In this UI,
-                // include a "cancel" or "no thanks" button that allows the user to
-                // continue using your app without granting the permission.
-                Log.i(MY_TAG, "do it for me, please")
                 Toast.makeText(
                     this,
                     "In order to demonstrate the success scenario we need you to allow access to the permission",
@@ -137,14 +160,15 @@ class CountActivity : AppCompatActivity() {
             val values = ContentValues()
             values.put(MediaStore.Images.Media.TITLE, "New Picture")
             values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
-            imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
+            imageUri =
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)!!
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
 
-    fun startChooseImageIntentForResult(view:View) {
+    fun startChooseImageIntentForResult(view: View) {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
