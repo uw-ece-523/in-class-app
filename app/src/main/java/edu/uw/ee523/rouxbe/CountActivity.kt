@@ -26,6 +26,7 @@ class CountActivity : AppCompatActivity() {
     lateinit var imageUri: Uri
     val REQUEST_IMAGE_CAPTURE = 42
     val REQUEST_CHOOSE_IMAGE = 47
+    val REQUEST_CODE_FOR_PERMISSIONS = 1902
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +37,13 @@ class CountActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.textView_message)
         textView.text = message
 
-        val button = findViewById<Button>(R.id.button_add_one)
-        button.setOnClickListener {
-            cur_count++
-            textView.text = cur_count.toString()
-
-            startCameraIntentForResult(textView)
-        }
+//        val button = findViewById<Button>(R.id.button_add_one)
+//        button.setOnClickListener {
+//            cur_count++
+//            textView.text = cur_count.toString()
+//
+//            startCameraIntentForResult(textView)
+//        }
 
         // Register the permissions callback, which handles the user's response to the
         // system permissions dialog. Save the return value, an instance of
@@ -71,85 +72,109 @@ class CountActivity : AppCompatActivity() {
             this,
             Manifest.permission.CAMERA
         )
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            Log.i(MY_TAG, "I should tell you why I want to use the camera")
-        }
-        if (canUseCamera == PackageManager.PERMISSION_DENIED) {
-            Log.i(MY_TAG,"Don't have permission so going to ask for it")
-            requestPermissionLauncher.launch(
-                Manifest.permission.CAMERA
-            )
-        }
-//
-//        val canUseStorage = ContextCompat.checkSelfPermission(
-//            this,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        )
-////
-//        if (canUseStorage == PackageManager.PERMISSION_DENIED) {
-//            shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//            Log.i(MY_TAG,"Don't have permission so going to ask for it")
-//            requestPermissionLauncher.launch(
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            )
-//        }
+        val canUseStorage = ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
-    }
+        if (canUseCamera != PackageManager.PERMISSION_GRANTED) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                Log.i(MY_TAG, "I should tell you why I want to use the camera")
+            }
+        }
 
-    private fun requestCameraPermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // You can use the API that requires the permission.
+        if (canUseStorage != PackageManager.PERMISSION_GRANTED) {
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                Log.i(MY_TAG, "I should tell you why I want to use the external storage")
             }
-            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
-                Toast.makeText(
-                    this,
-                    "In order to demonstrate the success scenario we need you to allow access to the permission",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            else -> {
-                // You can directly ask for the permission.
-                // The registered ActivityResultCallback gets the result of this request.
+        }
+
+
+        if (canUseCamera == PackageManager.PERMISSION_DENIED &&
+            canUseStorage == PackageManager.PERMISSION_DENIED) {
+            Log.i(MY_TAG,"Don't have permission for either so going to ask for both")
+            requestPermissions(arrayOf(Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_CODE_FOR_PERMISSIONS)
+
+        } else {
+            if (canUseCamera == PackageManager.PERMISSION_DENIED) {
+                Log.i(MY_TAG,"Going to ask for permission for camera only")
+                // Only request a single permission
                 requestPermissionLauncher.launch(
                     Manifest.permission.CAMERA
                 )
             }
-        }
-    }
-
-    private fun requestStoragePermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // You can use the API that requires the permission.
-            }
-            shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
-                // In an educational UI, explain to the user why your app requires this
-                // permission for a specific feature to behave as expected. In this UI,
-                // include a "cancel" or "no thanks" button that allows the user to
-                // continue using your app without granting the permission.
-                Log.i(MY_TAG, "do it for me, please")
-                Toast.makeText(
-                    this,
-                    "In order to demonstrate the success scenario we need you to allow access to the permission",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            else -> {
-                // You can directly ask for the permission.
-                // The registered ActivityResultCallback gets the result of this request.
+            if (canUseStorage == PackageManager.PERMISSION_DENIED) {
+                Log.i(MY_TAG,"Going to ask for permission for storage only")
+//                Log.i(MY_TAG,"Don't have permission so going to ask for it")
                 requestPermissionLauncher.launch(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             }
         }
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<out String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+//    private fun requestCameraPermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
+//        when {
+//            ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.CAMERA
+//            ) == PackageManager.PERMISSION_GRANTED -> {
+//                // You can use the API that requires the permission.
+//            }
+//            shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+//                Toast.makeText(
+//                    this,
+//                    "In order to demonstrate the success scenario we need you to allow access to the permission",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//            else -> {
+//                // You can directly ask for the permission.
+//                // The registered ActivityResultCallback gets the result of this request.
+//                requestPermissionLauncher.launch(
+//                    Manifest.permission.CAMERA
+//                )
+//            }
+//        }
+//    }
+//
+//    private fun requestStoragePermissions(requestPermissionLauncher: ActivityResultLauncher<String>) {
+//        when {
+//            ContextCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.WRITE_EXTERNAL_STORAGE
+//            ) == PackageManager.PERMISSION_GRANTED -> {
+//                // You can use the API that requires the permission.
+//            }
+//            shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE) -> {
+//                // In an educational UI, explain to the user why your app requires this
+//                // permission for a specific feature to behave as expected. In this UI,
+//                // include a "cancel" or "no thanks" button that allows the user to
+//                // continue using your app without granting the permission.
+//                Log.i(MY_TAG, "do it for me, please")
+//                Toast.makeText(
+//                    this,
+//                    "In order to demonstrate the success scenario we need you to allow access to the permission",
+//                    Toast.LENGTH_LONG
+//                ).show()
+//            }
+//            else -> {
+//                // You can directly ask for the permission.
+//                // The registered ActivityResultCallback gets the result of this request.
+//                requestPermissionLauncher.launch(
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                )
+//            }
+//        }
+//    }
 
     fun startCameraIntentForResult(view: View) {
         // Clean up last time's image
@@ -176,25 +201,5 @@ class CountActivity : AppCompatActivity() {
         cur_count = savedInstanceState.getInt("COUNT")
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.i(MY_TAG, "onStop")
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        Log.i(MY_TAG, "onResume")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(MY_TAG, "onStart")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(MY_TAG, "onDestroy")
-    }
 
 }
