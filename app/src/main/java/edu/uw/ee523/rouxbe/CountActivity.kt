@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -37,13 +38,13 @@ class CountActivity : AppCompatActivity() {
         val textView = findViewById<TextView>(R.id.textView_message)
         textView.text = message
 
-//        val button = findViewById<Button>(R.id.button_add_one)
-//        button.setOnClickListener {
-//            cur_count++
-//            textView.text = cur_count.toString()
-//
-//            startCameraIntentForResult(textView)
-//        }
+        val button = findViewById<Button>(R.id.button_add_one)
+        button.setOnClickListener {
+            cur_count++
+            textView.text = cur_count.toString()
+
+            startCameraIntentForResult(textView)
+        }
 
         // Register the permissions callback, which handles the user's response to the
         // system permissions dialog. Save the return value, an instance of
@@ -67,6 +68,14 @@ class CountActivity : AppCompatActivity() {
                     Log.i(MY_TAG, "permission is NOT granted ")
                 }
             }
+
+//        val imageView = findViewById<ImageView>(R.id.imageView2)
+//
+//        val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) { bitmap ->
+//            bitmap?.let {
+//                imageView.setImageBitmap(bitmap)
+//            }
+//        }
 
         val canUseCamera = ContextCompat.checkSelfPermission(
             this,
@@ -176,6 +185,8 @@ class CountActivity : AppCompatActivity() {
 //        }
 //    }
 
+
+
     fun startCameraIntentForResult(view: View) {
         // Clean up last time's image
 //        imageUri = null
@@ -191,6 +202,20 @@ class CountActivity : AppCompatActivity() {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
         }
     }
+
+
+//    override fun onActivityResult(code: Int, resultCode: Int, data: Intent) {
+//        super.onActivityResult(code, resultCode, data)
+//        if (resultCode == Activity.RESULT_OK) {
+//            if (code == REQUEST_IMAGE_CAPTURE){
+//
+//            }
+//        }
+//
+////        super.onActivityResult(requestCode, resultCode, data)
+//
+//    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt("COUNT", cur_count)

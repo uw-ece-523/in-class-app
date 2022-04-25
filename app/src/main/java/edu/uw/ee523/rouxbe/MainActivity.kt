@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
         val binding:ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.myToDo = DataRepositorySingleton.dataToDo
 
+
+
+
+
 //        val button = findViewById<Button>(R.id.button_show_message)
 
         binding.buttonShowMessage.setOnClickListener {
